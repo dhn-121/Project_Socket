@@ -1,0 +1,111 @@
+== Console UI in a real terminal
+  [PASS] both instances see each other
+  [PASS] /chat works in the terminal UI
+
+   +--- screen: typing 'you can che' (before the message arrives) ---
+   | [*] Listening on TCP port 5111
+   | [*] Broadcasting presence on UDP port 9999
+   | [+] Ha is online (192.0.2.2, online)
+   | [*] Type /help for the list of commands.
+   | > /chat Ha
+   | [*] Connected to Ha (192.0.2.2:5112)
+   | [Bich] Hi Ha, are you ready for the demo?
+   | [Ha] Yes! Send me the slides
+   | > you can che
+   +----------------------------------------------------------------------
+  [PASS] incoming message is displayed
+
+   +--- screen: after '[Ha] ok, which part?' arrived while typing ---
+   | [*] Listening on TCP port 5111
+   | [*] Broadcasting presence on UDP port 9999
+   | [+] Ha is online (192.0.2.2, online)
+   | [*] Type /help for the list of commands.
+   | > /chat Ha
+   | [*] Connected to Ha (192.0.2.2:5112)
+   | [Bich] Hi Ha, are you ready for the demo?
+   | [Ha] Yes! Send me the slides
+   | [Ha] ok, which part?
+   | > you can che
+   +----------------------------------------------------------------------
+  [PASS] prompt is redrawn with the typed text preserved
+  [PASS] message was inserted ABOVE the input line
+  [PASS] cursor is right after the typed text
+  [PASS] typed text appears exactly once on screen (no leftovers)
+  [PASS] text typed before AND after the interruption is sent as one message
+  [PASS] backspace + two interruptions: prompt shows 'abc'
+  [PASS] Ctrl-U clears the input line
+  [PASS] Vietnamese text typed by the user survives a redraw
+
+   +--- screen: a typed line longer than 80 columns, then a message arrives 
+   | [*] Listening on TCP port 5111
+   | [*] Broadcasting presence on UDP port 9999
+   | [+] Ha is online (192.0.2.2, online)
+   | [*] Type /help for the list of commands.
+   | > /chat Ha
+   | [*] Connected to Ha (192.0.2.2:5112)
+   | [Bich] Hi Ha, are you ready for the demo?
+   | [Ha] Yes! Send me the slides
+   | [Ha] ok, which part?
+   | [Bich] you can check it again
+   | [Ha] one
+   | [Ha] two
+   | [Ha] xin chào
+   | [Ha] interrupting a wrapped line
+   | > LONG-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   | xxxxxxxxxxxxxxxxx-END
+   +----------------------------------------------------------------------
+  [PASS] wrapped input line is redrawn cleanly (one copy only)
+
+   +--- screen: file transfer in progress, user typing, message arrives 
+   | [*] Listening on TCP port 5111
+   | [*] Broadcasting presence on UDP port 9999
+   | [+] Ha is online (192.0.2.2, online)
+   | [*] Type /help for the list of commands.
+   | > /chat Ha
+   | [*] Connected to Ha (192.0.2.2:5112)
+   | [Bich] Hi Ha, are you ready for the demo?
+   | [Ha] Yes! Send me the slides
+   | [Ha] ok, which part?
+   | [Bich] you can check it again
+   | [Ha] one
+   | [Ha] two
+   | [Ha] xin chào
+   | [Ha] interrupting a wrapped line
+   | > /send /tmp/lanchat_ui_4951qul3/big.bin
+   | [*] Sending big.bin (2.0 MB) to Ha ...
+   | [Ha] message during transfer
+   | [*] Sending big.bin to Ha ... 31%
+   | > typing during transfer
+   +----------------------------------------------------------------------
+  [PASS] progress line (percentage) sits right above the prompt
+  [PASS] typed text is still intact during the transfer
+  [PASS] chat message appears above the progress line
+  [PASS] transfer finishes with '100% Done'
+
+   +--- screen: after the transfer finished -------------------------
+   | [*] Listening on TCP port 5111
+   | [*] Broadcasting presence on UDP port 9999
+   | [+] Ha is online (192.0.2.2, online)
+   | [*] Type /help for the list of commands.
+   | > /chat Ha
+   | [*] Connected to Ha (192.0.2.2:5112)
+   | [Bich] Hi Ha, are you ready for the demo?
+   | [Ha] Yes! Send me the slides
+   | [Ha] ok, which part?
+   | [Bich] you can check it again
+   | [Ha] one
+   | [Ha] two
+   | [Ha] xin chào
+   | [Ha] interrupting a wrapped line
+   | > /send /tmp/lanchat_ui_4951qul3/big.bin
+   | [*] Sending big.bin (2.0 MB) to Ha ...
+   | [Ha] message during transfer
+   | [*] Sent big.bin (2.0 MB) to Ha ... 100% Done.
+   | > typing during transfer
+   +----------------------------------------------------------------------
+  [PASS] progress line is gone, prompt + typed text remain
+  [PASS] receiver stored the file
+  [PASS] Ctrl-C exits cleanly (exit code 0) and says Bye
+  [PASS] peer is told the chat ended
+
+20/20 UI checks passed

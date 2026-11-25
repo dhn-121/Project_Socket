@@ -1,0 +1,68 @@
+
+== Protocol: framing over a TCP byte stream
+  [PASS] MSG split into 1-byte pieces is reassembled
+  [PASS] BYE after it is parsed
+  [PASS] 3 frames glued together are separated correctly
+  [PASS] FILE payload with '|' bytes survives intact
+  [PASS] '|' in a file name is replaced
+  [PASS] unknown frame type raises ProtocolError
+  [PASS] closed connection raises ConnectionClosed
+  [PASS] HELLO round-trip
+  [PASS] malformed HELLO datagrams are ignored
+  [PASS] unsafe file names are cleaned
+
+== UDP discovery + online list
+  [PASS] every peer notices the two others coming online
+  [PASS] /list shows both users with name, IP and status
+
+== Status (UDP)
+  [PASS] away status reaches the others (notification)
+  [PASS] /list displays 'away'
+  [PASS] back to online
+  [PASS] invalid status is rejected
+
+== TCP chat, both directions, unread counters
+  [PASS] /chat opens a TCP connection
+  [PASS] sender sees own message as [Bich] ...
+  [PASS] receiver (other partner) gets unread notification
+  [PASS] switching shows the unread messages
+  [PASS] reverse direction works
+  [PASS] current partner's message is shown immediately (UTF-8 intact)
+
+== Several peers at once
+  [PASS] message from a non-current peer -> notification with count
+  [PASS] ...and its text is NOT printed while chatting with someone else
+  [PASS] /list shows unread count and current partner
+  [PASS] switching to Chau lists its 2 unread messages
+
+== File transfer while chatting
+  [PASS] sender reports 100% Done
+  [PASS] receiver reports 100% Done
+  [PASS] chat messages arrived WHILE the file was still transferring
+  [PASS] file saved in downloads/ with identical content (SHA-256)
+  [PASS] no leftover .part file
+  [PASS] same file name is not overwritten (slides (1).bin)
+  [PASS] empty file with a space in its name works
+
+== Error handling (no crashes)
+  [PASS] /send missing file -> error
+  [PASS] /chat unknown user -> error
+  [PASS] /chat bad number -> error
+  [PASS] unknown command -> short help
+  [PASS] /leave closes the chat on both sides
+  [PASS] message without an open chat -> error
+
+== Peer crash and timeout
+  [PASS] open TCP chat: peer crash is reported
+  [PASS] crashed peer is back at the main prompt (no partner)
+  [PASS] connecting to a user who just died -> error, no crash
+  [PASS] UDP timeout removes the dead peer (10 s since last HELLO)
+        (peer removed 8.2 s after it was killed)
+  [PASS] online list no longer contains Chau
+
+== Interrupted file transfer
+  [PASS] receiver started and had a .part file
+  [PASS] receiver reports the interruption
+  [PASS] partial file was deleted
+
+47/47 checks passed
